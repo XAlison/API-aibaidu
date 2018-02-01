@@ -1,0 +1,16 @@
+*.dll
+*.log
+*.class
+*.war
+*.prefs
+*.container
+*.name
+META-INF/
+*.MF
+.settings/*
+/.settings/
+target/*
+/target/
+.classpath
+*.project
+

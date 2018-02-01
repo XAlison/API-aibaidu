@@ -1,0 +1,29 @@
+# Tomcat
+server:
+    tomcat:
+        uri-encoding: UTF-8
+        max-threads: 1000
+        min-spare-threads: 30
+    port: 80
+    #打开注释，则通过【http://localhost/z-lottery】访问
+    #context-path: /z-aibaidu
+    
+#spring
+spring:
+    application:
+        name: z-aibaidu
+    # 环境 dev|test|pro
+    profiles:
+        active: dev
+    # jackson时间格式化
+    jackson:
+        date-format: yyyy-MM-dd HH:mm:ss
+        time-zone: GMT+8
+        default-property-inclusion: non_null
+    http:
+        multipart:
+            max-file-size: 100MB
+            max-request-size: 100MB
+            enabled: true
+    resources: # 指定静态资源的路径
+        static-locations: classpath:/static/,classpath:/views/
