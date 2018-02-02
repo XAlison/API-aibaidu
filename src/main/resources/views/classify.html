@@ -7,8 +7,13 @@
 	<div align="center">
 		<h1>AI图像识别</h1>
 		<hr>
-		<h3>动物识别</h3>
 		<form name="upform" action="/classify/animal" id="myForm" enctype="multipart/form-data" method="post">
+		<select name="type">
+							<option value="1">动物识别</option>
+							<option value="2">植物识别</option>
+							<option value="3">车型识别</option>
+						</select>
+		<br>
 			<input type="file" name="animalfile" id="urls2" />
 			
 			<img src="" width='100px' height='100px' id="aurl" />

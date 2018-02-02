@@ -44,17 +44,17 @@ public class ClassifyController {
 	
 
 	/**
-	 * 文件上传解析
+	 * 动物识别
 	 * @methodsDescription:
 	 * @methodName: rec
 	 * @param file
 	 * @return
 	 * @author: singleton-zw
-	 * @return: R
+	 * @return: String
 	 */
 	@RequestMapping(value="/animal" ,method = {RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody
-	public String rec(@RequestParam("animalfile") MultipartFile file){
+	public String rec(@RequestParam("animalfile") MultipartFile file,@RequestParam("type") String types){
 		if (file.isEmpty()) {
 			return "文件不能为空";
 		}
@@ -73,12 +73,19 @@ public class ClassifyController {
             byte[] imgData = FileUtil.readFileByBytes(path);
             String imgStr = Base64Util.encode(imgData);
             relst = URLEncoder.encode("image", "UTF-8") + "="    + URLEncoder.encode(imgStr, "UTF-8");
-            
           /**
           * 线上环境access_token有过期时间， 客户端可自行缓存，过期后重新获取。
           */
          String accessToken = AccessToken.getAuth(orc.getClassifyClientId(),orc.getClassifyClientSecret());
-         String result = HttpUtil.post(ConfigURL.classifyUrl, accessToken, relst);
+         String par = "";
+         if(types.equals("1")){
+        	 par = ConfigURL.classifyUrl;
+         }else  if(types.equals("2")){
+        	 par = ConfigURL.plantUrl;
+         }else  if(types.equals("3")){
+        	 par = ConfigURL.carUrl;
+         }
+         String result = HttpUtil.post(par, accessToken, relst);
 //         System.out.println(result);
 //         {"log_id": 6765644061838946718, "result": [{"score": "0.809126", "name": "金毛犬"}, {"score": "0.0676504", "name": "拉布拉多"}, {"score": "0.00950747", "name": "北极熊"}, {"score": "0.00729283", "name": "棕熊"}, {"score": "0.00436323", "name": "可卡"}, {"score": "0.00338853", "name": "中华田园犬"}]}
          String w = "";
