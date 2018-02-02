@@ -1,12 +1,6 @@
 
- **软件需求** 
-- JDK1.7+
-- MySQL5.5+
-- Tomcat7.0+
-- Maven3.0+
-
-
+基于springboot
 
  **本地部署**
-- Eclipse、IDEA执行【clean package tomcat7:run】命令，即可运行项目
+- Eclipse、IDEA执行ZAibaiduApplication.java这个类即可，即可运行项目
 - 项目访问路径：http://localhost
