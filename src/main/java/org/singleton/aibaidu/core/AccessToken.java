@@ -19,13 +19,13 @@ public class AccessToken {
 	 *         "24.460da4889caad24cccdb1fea17221975.2592000.1491995545.282335-1234567",
 	 *         "expires_in": 2592000 }
 	 */
-	public static String getAuth() {
-		// 官网获取的 API Key 更新为你注册的
-		String clientId = "xxxx";
-		// 官网获取的 Secret Key 更新为你注册的
-		String clientSecret = "xxxx";
-		return getAuth(clientId, clientSecret);
-	}
+//	public static String getAuth() {
+//		// 官网获取的 API Key 更新为你注册的
+//		String clientId = "xxxx";
+//		// 官网获取的 Secret Key 更新为你注册的
+//		String clientSecret = "xxxx";
+//		return getAuth(clientId, clientSecret);
+//	}
 
 	/**
 	 * 获取API访问token 该token有一定的有效期，需要自行管理，当失效时需重新获取.

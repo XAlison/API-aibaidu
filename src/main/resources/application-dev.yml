@@ -1,4 +1,9 @@
-ocr:
-    clientId: XXX
-    clientSecret: XXX
+aiKey:
+    #上传路径
     upladfile: F:/
+    #文字识别
+    ocrClientId: XXXX
+    ocrClientSecret: XXXX
+    #图像识别
+    classifyClientId: XXXX
+    classifyClientSecret: XXXX 

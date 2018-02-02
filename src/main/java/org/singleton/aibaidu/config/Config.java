@@ -4,16 +4,38 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "ocr")
+@ConfigurationProperties(prefix = "aiKey")
 public class Config {
 	
-	public String clientId;
+	public String ocrClientId;
 	
-	public String clientSecret;
+	public String ocrClientSecret;
+	
+	public String classifyClientId;
+	public String classifyClientSecret;
 	
 	public String upladfile;
 	
 	
+	
+
+	
+
+	public String getClassifyClientId() {
+		return classifyClientId;
+	}
+
+	public void setClassifyClientId(String classifyClientId) {
+		this.classifyClientId = classifyClientId;
+	}
+
+	public String getClassifyClientSecret() {
+		return classifyClientSecret;
+	}
+
+	public void setClassifyClientSecret(String classifyClientSecret) {
+		this.classifyClientSecret = classifyClientSecret;
+	}
 
 	public String getUpladfile() {
 		return upladfile;
@@ -23,22 +45,25 @@ public class Config {
 		this.upladfile = upladfile;
 	}
 
-	public String getClientId() {
-		return clientId;
+	public String getOcrClientId() {
+		return ocrClientId;
 	}
 
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
+	public void setOcrClientId(String ocrClientId) {
+		this.ocrClientId = ocrClientId;
 	}
 
-	public String getClientSecret() {
-		return clientSecret;
+	public String getOcrClientSecret() {
+		return ocrClientSecret;
 	}
 
-	public void setClientSecret(String clientSecret) {
-		this.clientSecret = clientSecret;
+	public void setOcrClientSecret(String ocrClientSecret) {
+		this.ocrClientSecret = ocrClientSecret;
 	}
 
+	
+
+	
 	
 	
 }

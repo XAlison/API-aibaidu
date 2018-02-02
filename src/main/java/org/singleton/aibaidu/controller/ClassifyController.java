@@ -3,15 +3,14 @@ package org.singleton.aibaidu.controller;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.net.URLEncoder;
-import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.singleton.aibaidu.config.Config;
 import org.singleton.aibaidu.config.ConfigURL;
 import org.singleton.aibaidu.core.AccessToken;
-import org.singleton.aibaidu.entity.Result;
 import org.singleton.aibaidu.utils.Base64Util;
 import org.singleton.aibaidu.utils.FileUtil;
-import org.singleton.aibaidu.utils.GsonUtils;
 import org.singleton.aibaidu.utils.HttpUtil;
 import org.singleton.aibaidu.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +21,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+
+
+/**
+ * 图像识别
+  * @className: ClassifyController
+  * @description:
+  * @author: singleton-zw
+  * @createDate: 2018年2月2日-上午9:59:10
+  * @updateAuthor:
+  * @updateDate:
+  * @updateDesc:
+  * @version: v1.2.0
+  * @Copyright (c)-2018
+ */
 @Controller
-@RequestMapping("/ai")
-public class RecognitionController {
+@RequestMapping("/classify")
+public class ClassifyController {
 	
 	@Autowired
 	public Config orc;
@@ -39,11 +52,11 @@ public class RecognitionController {
 	 * @author: singleton-zw
 	 * @return: R
 	 */
-	@RequestMapping(value="/recognLocal" ,method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value="/animal" ,method = {RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody
-	public R rec(@RequestParam("file") MultipartFile file){
+	public String rec(@RequestParam("animalfile") MultipartFile file){
 		if (file.isEmpty()) {
-			return R.ok().put("orc","文件不能为空");
+			return "文件不能为空";
 		}
 		String path = orc.getUpladfile()+file.getOriginalFilename();
 		String relst = "";
@@ -64,55 +77,22 @@ public class RecognitionController {
           /**
           * 线上环境access_token有过期时间， 客户端可自行缓存，过期后重新获取。
           */
-         String accessToken = AccessToken.getAuth(orc.getOcrClientId(),orc.getOcrClientSecret());
-         String result = HttpUtil.post(ConfigURL.OrcUrl, accessToken, relst);
-         Result fromJson = GsonUtils.fromJson(result, Result.class); 
-         List<Result.Word> data = fromJson.getWords_result();
+         String accessToken = AccessToken.getAuth(orc.getClassifyClientId(),orc.getClassifyClientSecret());
+         String result = HttpUtil.post(ConfigURL.classifyUrl, accessToken, relst);
+//         System.out.println(result);
+//         {"log_id": 6765644061838946718, "result": [{"score": "0.809126", "name": "金毛犬"}, {"score": "0.0676504", "name": "拉布拉多"}, {"score": "0.00950747", "name": "北极熊"}, {"score": "0.00729283", "name": "棕熊"}, {"score": "0.00436323", "name": "可卡"}, {"score": "0.00338853", "name": "中华田园犬"}]}
          String w = "";
-         for (Result.Word word : data) {
-				w += word.getWords()+"<br>";
-			}
-         return R.ok().put("orc", w);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-		return R.ok().put("orc", "失败");
-	}
-	
-	/**
-	 * 使用网络图片
-	 * @methodsDescription:
-	 * @methodName: rec2
-	 * @param file
-	 * @return
-	 * @author: singleton-zw
-	 * @return: R
-	 */
-	@RequestMapping(value="/recognNet" ,method = {RequestMethod.GET,RequestMethod.POST})
-	@ResponseBody
-	public R rec2(@RequestParam("urlNet") String urlNet){
-		if (urlNet.isEmpty()) {
-			return R.ok().put("orc","url不能为空");
+         JSONObject js = new JSONObject(result);
+         JSONArray jsonArray = js.getJSONArray("result");
+        for (int i = 0; i < jsonArray.length(); i++) {
+			String score = jsonArray.getJSONObject(i).getString("score");
+			String name = jsonArray.getJSONObject(i).getString("name");
+			w += "名称：&nbsp;&nbsp;"+name+"&nbsp;&nbsp;&nbsp;置信度:&nbsp;&nbsp;&nbsp;"+score+"<br><br>";
 		}
-		String relst = "";
-		try {
-            relst = URLEncoder.encode("url", "UTF-8") + "="   + URLEncoder.encode(urlNet, "UTF-8");
-            
-          /**
-          * 线上环境access_token有过期时间， 客户端可自行缓存，过期后重新获取。
-          */
-         String accessToken = AccessToken.getAuth(orc.getOcrClientId(),orc.getOcrClientSecret());
-         String result = HttpUtil.post(ConfigURL.OrcUrl, accessToken, relst);
-         Result fromJson = GsonUtils.fromJson(result, Result.class); 
-         List<Result.Word> data = fromJson.getWords_result();
-         String w = "";
-         for (Result.Word word : data) {
-				w += word.getWords()+"<br>";
-			}
-         return R.ok().put("orc", w);
+         return w;
         } catch (Exception e) {
             e.printStackTrace();
         }
-		return R.ok().put("orc", "失败");
+		return "失败";
 	}
 }
