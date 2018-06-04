@@ -3,7 +3,7 @@ aiKey:
     upladfile: F:/
     #文字识别
     ocrClientId: XXXX
-    ocrClientSecret: XXXX
+    ocrClientSecret: XXXXX
     #图像识别
     classifyClientId: XXXX
-    classifyClientSecret: XXXX 
+    classifyClientSecret: XXXX

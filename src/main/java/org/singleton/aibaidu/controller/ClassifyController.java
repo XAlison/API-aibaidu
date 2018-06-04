@@ -12,7 +12,6 @@ import org.singleton.aibaidu.core.AccessToken;
 import org.singleton.aibaidu.utils.Base64Util;
 import org.singleton.aibaidu.utils.FileUtil;
 import org.singleton.aibaidu.utils.HttpUtil;
-import org.singleton.aibaidu.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
